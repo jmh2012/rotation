@@ -13,7 +13,7 @@ config.read_file(open('/etc/rotation.conf'))
 def port_mode():
   port = config.get('default','port')
   protocol = config.get('default','protocol')
-  iptables_chain = config.get('default','iptables-chain')
+  iptables_chain = config.get('default','iptables_chain')
   if protocol == 'tcp+udp':
     rule = {'protocol': 'tcp', 'target': 'DROP', protocol: {'dport': port}}
     rule2 = {'protocol': 'udp', 'target': 'DROP', protocol: {'dport': port}}
