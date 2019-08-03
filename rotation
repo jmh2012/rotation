@@ -13,16 +13,24 @@ config.read_file(open('/etc/rotation.conf'))
 def port_mode():
   port = config.get('default','port')
   protocol = config.get('default','protocol')
-  rule = {'protocol': protocol, 'target': 'DROP', protocol: {'dport': port}}
+  if protocol == 'tcp+udp':
+    rule = {'protocol': 'tcp', 'target': 'DROP', protocol: {'dport': port}}
+    rule2 = {'protocol': 'udp', 'target': 'DROP', protocol: {'dport': port}}
+  else: 
+    rule = {'protocol': protocol, 'target': 'DROP', protocol: {'dport': port}}
   if op == 'out':
     try:
       iptc.easy.insert_rule('filter', 'INPUT', rule)
+      if protocol == 'tcp+udp':
+        iptc.easy.insert_rule('filter', 'INPUT', rule2)
     except:
       return 1
     return 0
   elif op == 'in':
     try:
       iptc.easy.delete_rule('filter', 'INPUT', rule)
+      if protocol == 'tcp+udp':
+        iptc.easy.delete_rule('filter', 'INPUT', rule2)
     except:
       return 1
     return 0
