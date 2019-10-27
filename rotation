@@ -69,18 +69,20 @@ def health_mode():
     return 0
   return 1
 
-mode = config.get('default','mode')
-
-
-if mode == 'port':
-  if port_mode() == 0:
-    print('Success')
+def main():
+  mode = config.get('default','mode')
+  if mode == 'port':
+    if port_mode() == 0:
+      print('Success')
+    else:
+      print('Failed')
+  elif mode == 'health':
+    if health_mode() == 0:
+      print('Success')
+    else:
+      print('Failed')
   else:
-    print('Failed')
-elif mode == 'health':
-  if health_mode() == 0:
-    print('Success')
-  else:
-    print('Failed')
-else:
-  print("Unknown mode, check configuration.")
+    print("Unknown mode, check configuration.")
+
+if __name__ == "__main__":
+  main()
